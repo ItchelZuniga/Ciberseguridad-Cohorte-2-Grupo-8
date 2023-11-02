@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap');
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    background-color: rgb(39, 39, 38);
+    width: 100%;
+}
+a{
+    text-decoration: none;
+}
+header ul{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+header ul li{
+margin: 10px;
+}
+
+
+
+img{
+    width: 150px;
+}
+
+p{
+    font-size: 20px;
+    color: black;
+}
+
+
+.presentacion{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenedor{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40x;
+    margin-top: 40px;
+}
+
+.imagen{
+    width: 350px;
+    height: 250px;
+    border-radius: 50px;
+
+}
+
+.caja{
+    display: flex;
+    margin-bottom: 40px;
+    margin-top: 40px;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
