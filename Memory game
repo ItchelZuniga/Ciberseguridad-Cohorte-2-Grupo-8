@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="IE=7">
+    <link rel="stylesheet" href="style.css">
+    <title>juego de memoria</title>
+</head>
+<body>
+    <main>
+        <section class="section1">
+            <h1>Juego de memoria</h1>
+            <table>
+                <tr>
+                    <td><button id="0" onclick="destapar(0)"></button></td>
+                    <td><button id="1" onclick="destapar(1)"></button></td>
+                    <td><button id="2" onclick="destapar(2)"></button></td>
+                    <td><button id="3" onclick="destapar(3)"></button></td>
+                </tr>
+                <tr>
+                    <td><button id="4" onclick="destapar(4)"></button></td>
+                    <td><button id="5" onclick="destapar(5)"></button></td>
+                    <td><button id="6" onclick="destapar(6)"></button></td>
+                    <td><button id="7" onclick="destapar(7)"></button></td>
+                </tr>
+                <tr>
+                    <td><button id="8" onclick="destapar(8)"></button></td>
+                    <td><button id="9" onclick="destapar(9)"></button></td>
+                    <td><button id="10" onclick="destapar(10)"></button></td>
+                    <td><button id="11" onclick="destapar(11)"></button></td>
+                </tr>
+                <tr>
+                    <td><button id="12" onclick="destapar(12)"></button></td>
+                    <td><button id="13" onclick="destapar(13)"></button></td>
+                    <td><button id="14" onclick="destapar(14)"></button></td>
+                    <td><button id="15" onclick="destapar(15)"></button></td>
+                </tr>
+            </table>
+        </section>
+        <section class="section2">
+            <h2 id="aciertos" class="estadisticas">Aciertos: 0</h2>
+            <h2 id="t.restante"  class="estadisticas">Tiempo: 30 segundos</h2>
+            <h2 id="movimientos" class="estadisticas">Movimientos: 0</h2>
+        </section>
+    </main>
+    <footer>
+        <p>Juego programado por Natalia Aquino</p>
+    </footer>
+    <script src="main.js"></script>
+</body>
+</html>
+
+body{
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(186,20,129,1) 70%, rgba(0,212,255,1) 100%);
+font-family: sans-serif;
+color: aliceblue;
+}
+    main{
+        width: 730px;
+        margin: 100px auto 50px;
+        display: flex;
+        align-items: center;
+    }
+    .section1{
+        background-color: rgba(255,255,255,0.2);
+        padding: 0 10px 10px 10px;
+        border-radius: 8px;
+    }
+    h1{
+        text-align: center;
+    }
+    button{
+        height: 100px;
+        width: 100px;
+        font-size: 40px;
+        color: white;
+        font-weight: bold;
+    }
+    button:hover{
+        cursor: pointer;
+    }
+    .section2{
+        background-color: rgba(255,255,255,0.2);
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        width: 250px;
+        height: 400px;
+        padding: 0 20px;
+    }
+    .estadisticas{
+        border: 1px solid white;
+        height: 105px;
+        border-radius: 8px;
+        padding: 8px 20px;
+        box-sizing: border-box;
+    }
+    footer{
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+
+//inicializacion de variables
+let tarjetasdestapadas = 0;
+let tarjeta1 = null;
+let tarjeta2 = null;
+let primerresultado = null;
+let segundoresultado = null;
+let movimientos = 0;
+let aciertos = 0;
+let temporizador = false;
+let timer = 30;
+let timerInicial = 30;
+let tiempoRegresivoId = null;
+
+//apuntando a elemento HTML
+let mostrarMovimientos = document.getElementById('movimientos');
+let mostraraciertos = document.getElementById('aciertos');
+let mostrartiempo = document.getElementById('t.restante');
+
+//Generacion de numeros aleatorios
+let numeros = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
+numeros = numeros.sort(()=>{return Math.random()-0.5});
+console.log(numeros);
+
+//funciones
+function contarTiempo(){
+    tiempoRegresivoId=setInterval(()=>{
+    timer--;
+    mostrartiempo.innerHTML = `Tiempo: ${timer} segundos`;
+    if(timer ==0){
+    clearInterval(tiempoRegresivoId)
+    bloquearTarjetas();
+    }
+},1000)
+}
+
+function bloquearTarjetas(){
+    for (let i = 0; i<=15; i++){
+        let tarjetaBloqueada = document.getElementById(i);
+        tarjetaBloqueada.innerHTML = numeros[i];
+        tarjetaBloqueada.disabled = true;
+    }
+}
+
+// Funcion principal
+function destapar(id){
+
+    if(temporizador == false){
+        contarTiempo();
+        temporizador = true;
+    }
+
+    tarjetasdestapadas++;
+    console.log(tarjetasdestapadas);
+
+    if(tarjetasdestapadas == 1){
+        //mostrar el primer numero
+    tarjeta1 = document.getElementById(id);
+    primerresultado = numeros[id]
+    tarjeta1.innerHTML = primerresultado; 
+
+    //deshabilitar primer boton
+    tarjeta1.disabled = true;
+    }else if(tarjetasdestapadas ==2){
+        //mostrar segundo numero
+        tarjeta2 = document.getElementById(id);
+        segundoresultado = numeros[id];
+        tarjeta2.innerHTML = segundoresultado;
+
+        //deshabilitar segund boton
+        tarjeta2.disabled = true;
+
+        //incrementar movimientos
+        movimientos++;
+        mostrarMovimientos.innerHTML = 'Movimientos: '+movimientos;
+
+        if(primerresultado == segundoresultado){
+            //Encerar contador de tapaderas destapadas
+            tarjetasdestapadas = 0;
+
+            //aumentar aciertos
+            aciertos++;
+            mostraraciertos.innerHTML = 'aciertos: '+aciertos;
+
+            if(aciertos ==8){
+                clearInterval(tiempoRegresivoId);
+                mostraraciertos.innerHTML = `aciertos: ${aciertos}🤩`;
+                mostrartiempo.innerHTML = `Fantástico! sólo demoraste ${timerInicial - timer} segundos`
+                mostrarMovimientos.innerHTML = `Movimientos: ${movimientos} 🥳`
+            }
+
+            }else{
+                //mostrar momentaneamente valores y volver a tapar
+                setTimeout(()=>{
+                    tarjeta1.innerHTML = ' ';
+                    tarjeta2.innerHTML = ' ';
+                    tarjeta1.disabled = false
+                    tarjeta2.disabled = false
+                    tarjetasdestapadas = 0;
+                },800);
+
+            }
+    }
+}
